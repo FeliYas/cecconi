@@ -9,7 +9,6 @@ use App\Models\Contacto;
 use App\Models\Logo;
 use App\Models\Metadato;
 use App\Models\Producto;
-use App\Models\Subcategoria;
 
 class ProductosController extends Controller
 {
@@ -19,71 +18,49 @@ class ProductosController extends Controller
         foreach ($categorias as $categoria) {
             $categoria->path = asset('storage/' . $categoria->path);
         }
-
-        $banner = Banner::where('seccion', 'productos')->first();
-        if ($banner) {
-            $banner->banner = asset('storage/' . $banner->banner);
-        }
         $metadatos = Metadato::where('seccion', 'productos')->first();
         $logos = Logo::whereIn('seccion', ['home', 'navbar', 'footer'])->get();
         foreach ($logos as $logo) {
             $logo->path = asset('storage/' . $logo->path);
         }
 
-        $redes = Contacto::select('facebook', 'instagram','tiktok')->first();
+        $redes = Contacto::select('facebook', 'instagram')->first();
         $contactos = Contacto::select('direccion', 'email', 'telefono', 'whatsapp')->get();
         $whatsapp = Contacto::select('whatsapp')->first()->whatsapp;
-        return view('front.categorias', compact('categorias', 'banner', 'metadatos', 'logos', 'contactos', 'whatsapp', 'redes'));
+        return view('front.categorias', compact('categorias', 'metadatos', 'logos', 'contactos', 'whatsapp', 'redes'));
     }
-    public function show($categoriaId)
+    public function show($categoriaId, $productoId = null)
     {
         $categoria = Categoria::findOrFail($categoriaId);
         $categorias = Categoria::orderBy('orden', 'asc')->with('productos')->get();
         foreach ($categorias as $cat) {
             $cat->path = asset('storage/' . $cat->path);
         }
+
         $productos = Producto::where('categoria_id', $categoriaId)->orderBy('orden', 'asc')->get();
-        foreach ($productos as $producto) {
+        foreach ($productos as $prod) {
+            $prod->path = asset('storage/' . $prod->path);
+        }
+
+        $producto = null;
+        if ($productoId) {
+            $producto = Producto::findOrFail($productoId);
             $producto->path = asset('storage/' . $producto->path);
+        } else {
+            $producto = $productos->first();
         }
 
         $logos = Logo::whereIn('seccion', ['home', 'navbar', 'footer'])->get();
         foreach ($logos as $logo) {
             $logo->path = asset('storage/' . $logo->path);
         }
-        $redes = Contacto::select('facebook', 'instagram','tiktok')->first();
-        $contactos = Contacto::select('direccion', 'email', 'telefono', 'whatsapp')->get();
-        $whatsapp = Contacto::select('whatsapp')->first()->whatsapp;
-        return view('front.productos', compact('categoria', 'categorias', 'productos', 'logos', 'contactos', 'whatsapp', 'redes'));
-    }
-    public function showProducto($producto)
-    {
-        $producto = Producto::with([
-            'galeria' => function ($query) {
-            $query->orderBy('orden', 'asc');
-            },
-            'caracteristicas' => function ($query) {
-                $query->orderBy('orden', 'asc');
-            }
-        ])->findOrFail($producto);
 
-        $producto->path = asset('storage/' . $producto->path);
-        if ($producto->manual) {
-            $producto->manual = asset('storage/' . $producto->manual);
-        }
-        if ($producto->memoria) {
-            $producto->memoria = asset('storage/' . $producto->memoria);
-        }
-        foreach ($producto->galeria as $imagen) {
-            $imagen->path = asset('storage/' . $imagen->path);
-        }
-        $logos = Logo::whereIn('seccion', ['home', 'navbar', 'footer'])->get();
-        foreach ($logos as $logo) {
-            $logo->path = asset('storage/' . $logo->path);
-        }
-        $redes = Contacto::select('facebook', 'instagram','tiktok')->first();
+        $redes = Contacto::select('facebook', 'instagram')->first();
         $contactos = Contacto::select('direccion', 'email', 'telefono', 'whatsapp')->get();
         $whatsapp = Contacto::select('whatsapp')->first()->whatsapp;
-        return view('front.producto', compact('producto', 'logos', 'contactos', 'whatsapp', 'redes'));
+
+        return view('front.producto', compact(
+            'categoria', 'categorias', 'productos', 'logos', 'contactos', 'whatsapp', 'redes', 'producto'
+        ));
     }
 }

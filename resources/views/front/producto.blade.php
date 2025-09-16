@@ -4,139 +4,133 @@
 
 @section('content')
     <div>
-        <div class="relative overflow-hidden text-black lg:h-[30px]">
-            <div class="absolute hidden lg:block inset-0 top-3 w-[90%] max-w-[1224px] mx-auto z-20 text-xs">
+        <div class="relative overflow-hidden text-[#727777] h-[200px] bg-[#F0F0F0]">
+            <div class="absolute hidden lg:block inset-0 top-6 w-[90%] max-w-[1224px] mx-auto z-20 text-xs">
                 <div>
                     <div class="flex gap-1">
                         <a href="{{ route('home') }}" class="font-bold hover:underline">{{ __('Inicio') }}</a>
-                        <span>></span>
-                        <a href="{{ route('categorias') }}" class="font-bold hover:underline">{{ __('Productos') }}</a>
-                        <span>></span>
-                        <a href="{{ route('productos', $producto->categoria->id) }}"
-                            class="font-bold hover:underline">{{ $producto->categoria->titulo }}</a>
-                        <span>></span>
-                        <a href="{{ route('producto', $producto->id) }}" class="hover:underline">{{ $producto->titulo }}</a>
+                        <span> / </span>
+                        <a href="{{ route('categorias') }}" class=" font-bold hover:underline">{{ __('Productos') }}</a>
+                        <span> / </span>
+                        <a href="{{ route('producto', ['categoria' => $categoria->id]) }}"
+                            class=" font-bold hover:underline">{{ $categoria->titulo }}</a>
+                        @if ($producto)
+                            <span> / </span>
+                            <a href="{{ route('producto', ['categoria' => $categoria->id, 'producto' => $producto->id]) }}"
+                                class=" font-light hover:underline">{{ $producto->titulo }}</a>
+                        @endif
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="flex flex-col gap-5 py-10 lg:py-20 w-[90%] lg:max-w-[1224px] mx-auto text-black">
-            <div class="flex flex-col lg:flex-row gap-6 mb-18">
-                <div class="flex flex-col lg:flex-row w-full lg:w-1/2 gap-6">
-                    <div class="lg:w-[13%] grid grid-cols-3 lg:flex lg:flex-col gap-2.5">
-                        <!-- Imagen principal del producto -->
-                        <img src="{{ $producto->path }}" alt="{{ $producto->titulo }}"
-                            class="gallery-thumb border border-[#DEDFE0] rounded-sm w-full h-25 lg:h-20 object-cover cursor-pointer hover:opacity-80 transition-all duration-200 active-thumb"
-                            onclick="changeMainImage(this.src)">
-
-                        <!-- Imágenes de la galería -->
-                        @foreach ($producto->galeria as $imagen)
-                            <img src="{{ $imagen->path }}" alt="{{ $producto->titulo }}"
-                                class="gallery-thumb border border-[#DEDFE0] rounded-sm w-full h-25 lg:h-20 object-cover cursor-pointer hover:opacity-80 transition-all duration-200"
-                                onclick="changeMainImage(this.src)">
-                        @endforeach
-                    </div>
-
-                    <!-- Imagen principal grande -->
-                    <img id="mainImage" src="{{ $producto->path }}" alt="{{ $producto->titulo }}"
-                        class="border border-[#DEDFE0] rounded-sm h-[350px] lg:h-[496px] w-[85%] object-cover transition-all duration-300">
+            <div class="absolute inset-0 w-[90%] max-w-[1224px] mx-auto flex items-center  h-full">
+                <div class="flex flex-col text-center gap-1">
+                    <h2 class="text-[38px] font-bold text-black mt-28 mb-4">{{ $categoria->titulo }}</h2>
                 </div>
-                <div class="flex flex-col lg:w-1/2 justify-between h-[496px] ">
-                    <div class="flex flex-col gap-2">
-                        <div class="flex flex-col">
-                            <p class="text-sm h-4">{{ $producto->categoria->titulo }}</p>
-                            <h2 class="text-[32px] font-semibold h-10 border-b border-[#DEDFE0]">{{ $producto->titulo }}
-                            </h2>
+            </div>
+        </div>
+        <div class="py-20 w-[90%] max-w-[1224px] mx-auto flex flex-col lg:flex-row gap-6 text-black">
+            <!-- Sidebar -->
+            <div class="lg:w-1/4 flex flex-col gap-3">
+                <h3 class="font-semibold">CATEGORÍA</h3>
+                <div class="border-y border-[#DEDFE0] flex flex-col divide-y divide-[#DEDFE0]">
+                    @foreach ($categorias as $cat)
+                        <div>
+                            <div class="py-2 flex justify-between w-full items-center">
+                                <p
+                                    class="{{ $cat->id === $categoria->id ? 'text-main-color font-bold' : 'hover:text-main-color' }} transition-colors">
+                                    {{ $cat->titulo }}
+                                </p>
+                                <button onclick="toggleCategory({{ $cat->id }})"
+                                    class="cursor-pointer transition-transform duration-200">
+                                    <svg id="arrow-down-{{ $cat->id }}" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        class="{{ $cat->id === $categoria->id ? 'hidden' : 'block' }}">
+                                        <path d="M6 9L12 15L18 9" stroke="#727777" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                    <svg id="arrow-up-{{ $cat->id }}" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        class="{{ $cat->id === $categoria->id ? 'block' : 'hidden' }}">
+                                        <path d="M18 15L12 9L6 15" stroke="#727777" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <!-- Lista de productos desplegable -->
+                            @if ($cat->productos && $cat->productos->count() > 0)
+                                <div id="productos-{{ $cat->id }}"
+                                    class="{{ $cat->id === $categoria->id ? 'block' : 'hidden' }} transition-all duration-300 ease-in-out">
+                                    <div class="pb-2">
+                                        @foreach ($cat->productos as $prod)
+                                            <a href="{{ route('producto', ['categoria' => $cat->id, 'producto' => $prod->id]) }}"
+                                                class="block text-sm {{ $producto && $prod->id === $producto->id ? 'font-bold' : 'hover:text-main-color' }} transition-colors">
+                                                {{ $prod->titulo }}
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <!-- Contenido del producto -->
+            <div class="lg:w-3/4 flex flex-col gap-40">
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <div class="w-full lg:w-1/2">
+                        <img src="{{ $producto->path }}" alt="{{ $producto->titulo }}"
+                            class="w-full h-[460px] object-cover rounded-[10px]">
+                    </div>
+                    <div class="flex flex-col justify-between lg:w-1/2">
+                        <div class="flex flex-col gap-5">
+                            <h2 class="font-bold text-[28px]">{{ $producto->titulo }}</h2>
+                            <div class="custom-summernote" style="line-height: 26px;">
+                                {!! $producto->descripcion !!}
+                            </div>
                         </div>
                         <div>
-                            <p class="font-bold h-6">Caracteristicas</p>
-                            <div class="flex flex-col divide-y divide-gray-300 border-y border-[#DEDFE0]">
-                                @foreach ($producto->caracteristicas as $caracteristica)
-                                    <div class="flex justify-between p-1 odd:bg-white even:bg-gray-100">
-                                        <p>{{ ucfirst($caracteristica->titulo) }}</p>
-                                        <p class="flex justify-end">{{ ucfirst($caracteristica->valor) }}</p>
-                                    </div>
-                                @endforeach
-                            </div>
+                            <a href="{{ route('presupuesto') }}" class="btn-rojo w-full">
+                                Solicitar Presupuesto
+                            </a>
                         </div>
                     </div>
-                    @if ($producto->manual || $producto->memoria)
-                        <div class="flex flex-col gap-2">
-                            <div class="flex gap-6 w-full">
-                                @if ($producto->manual)
-                                    <a href="{{ $producto->manual }}" class="w-1/2 btn-primary">Manual de uso</a>
-                                @endif
-                                @if ($producto->memoria)
-                                    <a href="{{ $producto->memoria }}" class="w-1/2 btn-primary">Memoria descriptiva</a>
-                                @endif
+                </div>
+                <div class="flex flex-col gap-6">
+                    <h3 class="text-2xl font-semibold">Galería de imágenes</h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        @foreach ($producto->galeria as $imagen)
+                            <div>
+                                <img src="{{ asset('storage/' . $imagen->path) }}" alt="Imagen del producto"
+                                    class="w-full h-[288px] object-cover rounded-[10px]">
                             </div>
-                            <div class="flex w-full">
-                                <a href="{{ route('contacto') }}" class="btn-negro w-full">Consultar</a>
-                            </div>
-                        </div>
-                    @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
-            @if ($producto->constructivas || $producto->tablero || $producto->quemador)
-                <div class="flex flex-col lg:flex-row gap-6">
-                    @if ($producto->constructivas)
-                        <div class="flex flex-col gap-6 w-1/3">
-                            <h2 class="text-2xl font-semibold">Características Constructivas</h2>
-                            <div class="custom-summernote">
-                                <p>{!! $producto->constructivas !!}</p>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($producto->tablero)
-                        <div class="flex flex-col gap-6 w-1/3">
-                            <h2 class="text-2xl font-semibold">Tablero Eléctrico</h2>
-                            <div class="custom-summernote">
-                                <p>{!! $producto->tablero !!}</p>
-                            </div>
-                        </div>
-                    @endif
-                    @if ($producto->quemador)
-                        <div class="flex flex-col gap-6 w-1/3">
-                            <h2 class="text-2xl font-semibold">Características del Quemador</h2>
-                            <div class="custom-summernote">
-                                <p>{!! $producto->quemador !!}</p>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-            @endif
         </div>
     </div>
-
-    <style>
-        /* Estilo para la imagen activa/seleccionada */
-        .active-thumb {
-            border-color: #FE9100 !important;
-            border-width: 2px !important;
-        }
-
-        /* Efecto hover mejorado */
-        .gallery-thumb:hover {
-            transform: scale(1.02);
-        }
-    </style>
-
     <script>
-        function changeMainImage(imageSrc) {
-            // Cambiar la imagen principal
-            const mainImage = document.getElementById('mainImage');
-            mainImage.src = imageSrc;
+        function toggleCategory(categoryId) {
+            const productosDiv = document.getElementById('productos-' + categoryId);
+            const arrowDown = document.getElementById('arrow-down-' + categoryId);
+            const arrowUp = document.getElementById('arrow-up-' + categoryId);
 
-            // Remover la clase active-thumb de todas las imágenes
-            const thumbnails = document.querySelectorAll('.gallery-thumb');
-            thumbnails.forEach(thumb => {
-                thumb.classList.remove('active-thumb');
-            });
-
-            // Encontrar la imagen clickeada y agregarle la clase active-thumb
-            const clickedImage = document.querySelector(`img[src="${imageSrc}"].gallery-thumb`);
-            if (clickedImage) {
-                clickedImage.classList.add('active-thumb');
+            if (productosDiv.classList.contains('hidden')) {
+                // Mostrar productos
+                productosDiv.classList.remove('hidden');
+                productosDiv.classList.add('block');
+                arrowDown.classList.add('hidden');
+                arrowDown.classList.remove('block');
+                arrowUp.classList.remove('hidden');
+                arrowUp.classList.add('block');
+            } else {
+                // Ocultar productos
+                productosDiv.classList.add('hidden');
+                productosDiv.classList.remove('block');
+                arrowDown.classList.remove('hidden');
+                arrowDown.classList.add('block');
+                arrowUp.classList.add('hidden');
+                arrowUp.classList.remove('block');
             }
         }
     </script>

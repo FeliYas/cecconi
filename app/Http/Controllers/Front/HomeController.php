@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accesorio;
 use App\Models\Categoria;
 use App\Models\Cliente;
 use App\Models\Contacto;
@@ -23,13 +24,17 @@ class HomeController extends Controller
         foreach ($sliders as $slider) {
             $slider->path = asset('storage/' . $slider->path);
         }
-        $categorias = Categoria::where('destacado', true)->get();
+        $categorias = Categoria::where('destacado', true)->orderBy('orden', 'asc')->get();
         foreach ($categorias as $categoria) {
             $categoria->path = asset('storage/' . $categoria->path);
         }
         $contenido = Contenido::first();
         if ($contenido && $contenido->path) {
             $contenido->path = asset('storage/' . $contenido->path);
+        }
+        $accesorios = Accesorio::where('destacado', true)->orderBy('orden', 'asc')->get();
+        foreach ($accesorios as $accesorio) {
+            $accesorio->path = asset('storage/' . $accesorio->path);
         }
         $novedades = Novedad::orderBy('orden', 'asc')->take(3)->get();
         foreach ($novedades as $novedad) {
@@ -47,6 +52,7 @@ class HomeController extends Controller
             'sliders',
             'categorias',
             'contenido',
+            'accesorios',
             'novedades',
             'clientes',
             'redes',

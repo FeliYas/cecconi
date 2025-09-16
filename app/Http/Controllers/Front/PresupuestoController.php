@@ -17,19 +17,16 @@ class PresupuestoController extends Controller
 {
     public function index()
     {
-        $banner = Banner::where('seccion', 'presupuesto')->first();
-        $banner->banner = asset('storage/' . $banner->banner);
-        
         $logos = Logo::whereIn('seccion', ['home', 'navbar', 'footer'])->get();
         foreach ($logos as $logo) {
             $logo->path = asset('storage/' . $logo->path);
         }
 
-        $redes = Contacto::select('facebook', 'instagram','tiktok')->first();
+        $redes = Contacto::select('facebook', 'instagram')->first();
         $contactos = Contacto::select('direccion', 'email', 'telefono', 'whatsapp')->get();
         $whatsapp = Contacto::select('whatsapp')->first()->whatsapp;
         $productos = Producto::orderBy('orden', 'asc')->get();
-        return view('front.presupuesto', compact('banner',  'logos', 'redes', 'contactos', 'whatsapp', 'productos'));
+        return view('front.presupuesto', compact('logos', 'redes', 'contactos', 'whatsapp', 'productos'));
     }
     public function enviar(Request $request)
     {
@@ -38,9 +35,9 @@ class PresupuestoController extends Controller
             'nombre' => 'required|string|max:100',
             'email' => 'required|email|max:255',
             'telefono' => 'required|string|max:100',
-            'localidad' => 'nullable|string|max:100',
+            'empresa' => 'nullable|string|max:100',
             'producto' => 'required|exists:productos,id',
-            'cantidad' => 'nullable|integer|min:1',
+            'medidas' => 'nullable|integer|min:1',
             'mensaje' => 'nullable|string',
             'archivo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'g-recaptcha-response' => 'required'

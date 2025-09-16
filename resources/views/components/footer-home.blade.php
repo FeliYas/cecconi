@@ -1,53 +1,54 @@
 @props(['logos', 'contactos', 'redes'])
 
 <footer class="text-white">
-    <div class="bg-black">
+    <div class="bg-[#131313]">
         <div
-            class="grid grid-cols-1 lg:grid-cols-4 gap-10 lg:gap-6 justify-between w-[90%] xl:max-w-[1224px] mx-auto py-20">
+            class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 justify-between w-[90%] xl:max-w-[1224px] mx-auto py-20">
+            <!-- Logo - 2 columnas -->
             <div
-                class="flex flex-col items-center md:items-center justify-center lg:justify-start gap-10 w-full lg:w-max">
+                class="lg:col-span-3 flex flex-col items-center md:items-center justify-center lg:justify-start gap-10 w-full lg:w-max">
                 <img src="{{ asset($logos[0]->path) }}" alt="logo" class="object-contain h-[66px] ">
-
             </div>
-            <div class="text-center lg:text-left flex flex-col gap-9">
+
+            <!-- Secciones - 2 columnas -->
+            <div class="lg:col-span-2 text-center lg:text-left flex flex-col gap-6">
                 <h3 class="font-bold text-xl">{{ __('Secciones') }}</h3>
                 <div class="flex flex-row md:pr-4 justify-center gap-6 md:gap-0 lg:justify-between lg:items-left">
                     <div class="flex flex-col gap-y-2">
                         <a href="{{ route('nosotros') }}"
-                            class="hover:text-[#FE9100] transition-colors duration-300">{{ __('Nosotros') }}</a>
+                            class="opacity-80 hover:opacity-100 transition-colors duration-300">{{ __('Nosotros') }}</a>
                         <a href="{{ route('categorias') }}"
-                            class="hover:text-[#FE9100] transition-colors duration-300">{{ __('Productos') }}</a>
+                            class="opacity-80 hover:opacity-100 transition-colors duration-300">{{ __('Productos') }}</a>
                         <a href="{{ route('accesorios') }}"
-                            class="hover:text-[#FE9100] transition-colors duration-300">{{ __('Accesorios') }}</a>
-                        <a href="{{ route('clientes') }}"
-                            class="hover:text-[#FE9100] transition-colors duration-300">{{ __('Clientes') }}</a>
-                    </div>
-                    <div class="flex flex-col gap-y-2">
-                        <a href="{{ route('presupuesto') }}"
-                            class="hover:text-[#FE9100] transition-colors duration-300">{{ __('Solicitud de presupuesto') }}</a>
+                            class="opacity-80 hover:opacity-100 transition-colors duration-300">{{ __('Accesorios') }}</a>
                         <a href="{{ route('novedades') }}"
-                            class="hover:text-[#FE9100] transition-colors duration-300">{{ __('Novedades') }}</a>
+                            class="opacity-80 hover:opacity-100 transition-colors duration-300">{{ __('Novedades') }}</a>
+                        <a href="{{ route('clientes') }}"
+                            class="opacity-80 hover:opacity-100 transition-colors duration-300">{{ __('Clientes') }}</a>
                         <a href="{{ route('contacto') }}"
-                            class="hover:text-[#FE9100] transition-colors duration-300">{{ __('Contacto') }}</a>
+                            class="opacity-80 hover:opacity-100 transition-colors duration-300">{{ __('Contacto') }}</a>
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col items-center lg:items-start text-center lg:text-start gap-9">
-                <div class="flex flex-col items-center lg:items-start text-center lg:text-start gap-9">
+
+            <!-- Newsletter y Redes - 4 columnas -->
+            <div class="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-start gap-7">
+                <div class="flex flex-col items-center lg:items-start text-center lg:text-start gap-6 ">
                     <div>
-                        <h3 class="font-bold text-xl w-[260px]">{{ __('Suscribite al Newsletter') }}
+                        <h3 class="font-bold text-xl lg:w-[260px]">{{ __('Suscribite al Newsletter') }}
                         </h3>
                     </div>
-                    <form id="newsletterForm" class="w-full h-[45px] flex flex-col items-center">
+                    <form id="newsletterForm" class="w-full h-[45px] flex flex-col items-center lg:items-start">
                         @csrf
-                        <div class="w-[288px] h-[40px] border border-[#DCDCDC] flex justify-between">
+                        <div
+                            class="w-[288px] h-[40px] border border-[#DCDCDC] flex justify-between rounded-[10px] text-sm">
                             <input type="email" name="email" placeholder="{{ __('Email') }}"
-                                class="bg-transparent border-none outline-none p-3 w-full" required>
+                                class="bg-transparent border-none outline-none p-3 w-full rounded-[10px]" required>
                             <button type="submit"
                                 class="flex items-center justify-center rounded-r-[20px] px-3 cursor-pointer transition-colors duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none">
-                                    <path d="M8 12H16M16 12L12 16M16 12L12 8" stroke="white" stroke-width="2"
+                                    <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="#E30412" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </button>
@@ -55,14 +56,15 @@
                         <div id="newsletterMessage" class="text-xs mt-2"></div>
                     </form>
                 </div>
-                <div class="flex flex-col gap-5">
+                <div class="flex flex-col gap-2">
                     <div>
-                        <h3 class="font-bold text-xl w-[260px]">{{ __('Seguinos en') }}
+                        <h3 class="font-bold text-xl lg:w-[260px]">{{ __('Redes Sociales') }}
                         </h3>
                     </div>
                     <div class="flex gap-2 lg:justify-start justify-center">
                         @if ($redes->facebook)
-                            <a href="{{ $redes->facebook }}" class="group hover:text-[#FE9100] transition-colors duration-300">
+                            <a href="{{ $redes->facebook }}"
+                                class="group hover:text-[#E30412] transition-colors duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none">
                                     <path
@@ -72,7 +74,8 @@
                             </a>
                         @endif
                         @if ($redes->instagram)
-                            <a href="{{ $redes->instagram }}" class="group hover:text-[#FE9100] transition-colors duration-300">
+                            <a href="{{ $redes->instagram }}"
+                                class="group hover:text-[#E30412] transition-colors duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none">
                                     <path
@@ -83,7 +86,8 @@
                             </a>
                         @endif
                         @if ($redes->tiktok)
-                            <a href="{{ $redes->tiktok }}" class="group hover:text-[#FE9100] transition-colors duration-300">
+                            <a href="{{ $redes->tiktok }}"
+                                class="group hover:text-[#E30412] transition-colors duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
                                     viewBox="0 0 28 28">
                                     <path fill="currentColor"
@@ -94,7 +98,8 @@
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col items-center gap-9">
+
+            <div class="lg:col-span-3 flex flex-col items-center lg:items-start gap-6">
                 <div class="text-left w-full">
                     <h3 class="font-bold text-xl text-center lg:text-left">{{ __('Contacto') }}
                     </h3>
@@ -105,17 +110,18 @@
                             <a href="https://maps.google.com/?q={{ urlencode($contacto->direccion) }}" target="_blank"
                                 class="block no-underline text-inherit hover:text-main-color transition-colors duration-300">
                                 <div class="flex gap-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
-                                        viewBox="0 0 24 24">
-                                        <rect width="24" height="24" fill="none" />
-                                        <g fill="none" stroke="#fdf6f6" stroke-linecap="round"
-                                            stroke-linejoin="round" stroke-width="2">
-                                            <circle cx="12" cy="10" r="3" />
-                                            <path
-                                                d="M12 2a8 8 0 0 0-8 8c0 1.892.402 3.13 1.5 4.5L12 22l6.5-7.5c1.098-1.37 1.5-2.608 1.5-4.5a8 8 0 0 0-8-8" />
-                                        </g>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                        viewBox="0 0 20 20" fill="none" class="w-10 h-10">
+                                        <path
+                                            d="M16.6667 8.33341C16.6667 13.3334 10 18.3334 10 18.3334C10 18.3334 3.33334 13.3334 3.33334 8.33341C3.33334 6.5653 4.03572 4.86961 5.28596 3.61937C6.53621 2.36913 8.2319 1.66675 10 1.66675C11.7681 1.66675 13.4638 2.36913 14.7141 3.61937C15.9643 4.86961 16.6667 6.5653 16.6667 8.33341Z"
+                                            stroke="#E30412" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path
+                                            d="M10 10.8333C11.3807 10.8333 12.5 9.71396 12.5 8.33325C12.5 6.95254 11.3807 5.83325 10 5.83325C8.61929 5.83325 7.5 6.95254 7.5 8.33325C7.5 9.71396 8.61929 10.8333 10 10.8333Z"
+                                            stroke="#E30412" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
                                     </svg>
-                                    <p class="hover:text-[#FE9100] transition-colors duration-300">
+                                    <p class="hover:text-[#E30412] transition-colors duration-300">
                                         {{ $contacto->direccion }}
                                     </p>
                                 </div>
@@ -127,19 +133,19 @@
                                 <div class="flex gap-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                         viewBox="0 0 20 20" fill="none">
-                                        <g clip-path="url(#clip0_4114_234)">
+                                        <g clip-path="url(#clip0_7247_61)">
                                             <path
-                                                d="M11.5265 13.8067C11.6986 13.8858 11.8925 13.9038 12.0762 13.8579C12.26 13.8121 12.4226 13.7049 12.5373 13.5542L12.8332 13.1667C12.9884 12.9598 13.1897 12.7917 13.4211 12.676C13.6526 12.5603 13.9078 12.5001 14.1665 12.5001H16.6665C17.1085 12.5001 17.5325 12.6757 17.845 12.9882C18.1576 13.3008 18.3332 13.7247 18.3332 14.1667V16.6667C18.3332 17.1088 18.1576 17.5327 17.845 17.8453C17.5325 18.1578 17.1085 18.3334 16.6665 18.3334C12.6883 18.3334 8.87295 16.7531 6.0599 13.94C3.24686 11.127 1.6665 7.31166 1.6665 3.33341C1.6665 2.89139 1.8421 2.46746 2.15466 2.1549C2.46722 1.84234 2.89114 1.66675 3.33317 1.66675H5.83317C6.2752 1.66675 6.69912 1.84234 7.01168 2.1549C7.32424 2.46746 7.49984 2.89139 7.49984 3.33341V5.83341C7.49984 6.09216 7.4396 6.34734 7.32388 6.57877C7.20817 6.8102 7.04016 7.0115 6.83317 7.16675L6.44317 7.45925C6.29018 7.57606 6.18235 7.74224 6.138 7.92954C6.09364 8.11684 6.11549 8.31373 6.19984 8.48675C7.33874 10.8 9.21186 12.6707 11.5265 13.8067Z"
-                                                stroke="white" stroke-width="2" stroke-linecap="round"
+                                                d="M18.3333 14.0999V16.5999C18.3343 16.832 18.2867 17.0617 18.1937 17.2744C18.1008 17.487 17.9644 17.6779 17.7934 17.8348C17.6224 17.9917 17.4205 18.1112 17.2006 18.1855C16.9808 18.2599 16.7478 18.2875 16.5167 18.2666C13.9523 17.988 11.4892 17.1117 9.32498 15.7083C7.31151 14.4288 5.60443 12.7217 4.32499 10.7083C2.91663 8.53426 2.04019 6.05908 1.76665 3.48325C1.74583 3.25281 1.77321 3.02055 1.84707 2.80127C1.92092 2.58199 2.03963 2.38049 2.19562 2.2096C2.35162 2.03871 2.54149 1.90218 2.75314 1.80869C2.9648 1.7152 3.1936 1.6668 3.42499 1.66658H5.92499C6.32941 1.6626 6.72148 1.80582 7.02812 2.06953C7.33476 2.33324 7.53505 2.69946 7.59165 3.09992C7.69717 3.89997 7.89286 4.68552 8.17499 5.44158C8.2871 5.73985 8.31137 6.06401 8.24491 6.37565C8.17844 6.68729 8.02404 6.97334 7.79998 7.19992L6.74165 8.25825C7.92795 10.3445 9.65536 12.072 11.7417 13.2583L12.8 12.1999C13.0266 11.9759 13.3126 11.8215 13.6243 11.755C13.9359 11.6885 14.26 11.7128 14.5583 11.8249C15.3144 12.107 16.0999 12.3027 16.9 12.4083C17.3048 12.4654 17.6745 12.6693 17.9388 12.9812C18.203 13.2931 18.3435 13.6912 18.3333 14.0999Z"
+                                                stroke="#E30412" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round" />
                                         </g>
                                         <defs>
-                                            <clipPath id="clip0_4114_234">
+                                            <clipPath id="clip0_7247_61">
                                                 <rect width="20" height="20" fill="white" />
                                             </clipPath>
                                         </defs>
                                     </svg>
-                                    <p class="hover:text-[#FE9100] transition-colors duration-300">
+                                    <p class="hover:text-[#E30412] transition-colors duration-300">
                                         {{ $contacto->telefono }}
                                     </p>
                                 </div>
@@ -152,15 +158,15 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                         viewBox="0 0 20 20" fill="none">
                                         <path
-                                            d="M16.6665 3.33325H3.33317C2.4127 3.33325 1.6665 4.07944 1.6665 4.99992V14.9999C1.6665 15.9204 2.4127 16.6666 3.33317 16.6666H16.6665C17.587 16.6666 18.3332 15.9204 18.3332 14.9999V4.99992C18.3332 4.07944 17.587 3.33325 16.6665 3.33325Z"
-                                            stroke="white" stroke-width="2" stroke-linecap="round"
+                                            d="M16.6667 3.33325H3.33332C2.41285 3.33325 1.66666 4.07944 1.66666 4.99992V14.9999C1.66666 15.9204 2.41285 16.6666 3.33332 16.6666H16.6667C17.5871 16.6666 18.3333 15.9204 18.3333 14.9999V4.99992C18.3333 4.07944 17.5871 3.33325 16.6667 3.33325Z"
+                                            stroke="#E30412" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                         <path
-                                            d="M18.3332 5.83325L10.8582 10.5833C10.6009 10.7444 10.3034 10.8299 9.99984 10.8299C9.69624 10.8299 9.39878 10.7444 9.1415 10.5833L1.6665 5.83325"
-                                            stroke="white" stroke-width="2" stroke-linecap="round"
+                                            d="M18.3333 5.83325L10.8583 10.5833C10.601 10.7444 10.3036 10.8299 9.99999 10.8299C9.69639 10.8299 9.39893 10.7444 9.14166 10.5833L1.66666 5.83325"
+                                            stroke="#E30412" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                    <p class="hover:text-[#FE9100] transition-colors duration-300">
+                                    <p class="hover:text-[#E30412] transition-colors duration-300">
                                         {{ $contacto->email }}
                                     </p>
                                 </div>
@@ -173,10 +179,10 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                         viewBox="0 0 20 20" fill="none">
                                         <path
-                                            d="M17.0073 2.90097C13.1303 -0.970609 6.85319 -0.965179 2.98161 2.9064C-0.184072 6.07752 -0.835671 10.9808 1.40148 14.8632L-0.00488281 20L5.25135 18.6154C6.70658 19.4081 8.33558 19.8208 9.99172 19.8208C15.4326 19.9077 19.9123 15.5691 19.9992 10.1283C20.0426 7.40786 18.9566 4.79061 17.0073 2.90097ZM9.99715 18.1538C8.5202 18.1538 7.07039 17.7574 5.79977 17.0081L5.50112 16.8289L2.38431 17.6488L3.2151 14.608L3.01962 14.2931C0.652145 10.3944 1.89561 5.31732 5.78891 2.94984C9.68764 0.582368 14.7647 1.82583 17.1322 5.71913C17.8978 6.98432 18.3159 8.4287 18.3322 9.91109C18.2833 14.4777 14.5692 18.1538 9.99715 18.1538ZM14.5149 11.9799C14.2706 11.855 13.0488 11.2577 12.8207 11.1763C12.5927 11.0948 12.4298 11.0514 12.2615 11.3012C12.0931 11.5509 11.6207 12.1048 11.4741 12.2731C11.3275 12.4415 11.1863 12.4632 10.9365 12.3383C9.48131 11.6107 8.52563 11.0405 7.56452 9.38981C7.30931 8.94998 7.81973 8.98256 8.29214 8.03774C8.3573 7.89656 8.35187 7.73366 8.27042 7.60334C8.21069 7.47845 7.71113 6.2567 7.50479 5.76258C7.30388 5.27931 7.09754 5.3499 6.9455 5.33904C6.80432 5.32818 6.63599 5.32818 6.47309 5.32818C6.21788 5.33361 5.97896 5.44764 5.81063 5.63769C5.24592 6.17525 4.93098 6.92459 4.94184 7.70651C5.02329 8.64047 5.37624 9.53099 5.95181 10.2695C6.0767 10.4324 7.70027 12.9356 10.1872 14.0107C11.7619 14.6895 12.3755 14.7492 13.1628 14.6297C13.6407 14.5592 14.6289 14.0324 14.8353 13.4514C14.9982 13.0822 15.047 12.6695 14.9765 12.2731C14.9167 12.1645 14.7538 12.0994 14.5095 11.9799H14.5149Z"
-                                            fill="white" />
+                                            d="M17 2.91005C16.0831 1.98416 14.991 1.25002 13.7875 0.750416C12.584 0.250812 11.2931 -0.00426317 9.99 5.38951e-05C4.53 5.38951e-05 0.0800002 4.45005 0.0800002 9.91005C0.0800002 11.6601 0.54 13.3601 1.4 14.8601L0 20.0001L5.25 18.6201C6.7 19.4101 8.33 19.8301 9.99 19.8301C15.45 19.8301 19.9 15.3801 19.9 9.92005C19.9 7.27005 18.87 4.78005 17 2.91005ZM9.99 18.1501C8.51 18.1501 7.06 17.7501 5.79 17.0001L5.49 16.8201L2.37 17.6401L3.2 14.6001L3 14.2901C2.17755 12.9771 1.74092 11.4593 1.74 9.91005C1.74 5.37005 5.44 1.67005 9.98 1.67005C12.18 1.67005 14.25 2.53005 15.8 4.09005C16.5676 4.85392 17.1759 5.7626 17.5896 6.76338C18.0033 7.76417 18.2142 8.83714 18.21 9.92005C18.23 14.4601 14.53 18.1501 9.99 18.1501ZM14.51 11.9901C14.26 11.8701 13.04 11.2701 12.82 11.1801C12.59 11.1001 12.43 11.0601 12.26 11.3001C12.09 11.5501 11.62 12.1101 11.48 12.2701C11.34 12.4401 11.19 12.4601 10.94 12.3301C10.69 12.2101 9.89 11.9401 8.95 11.1001C8.21 10.4401 7.72 9.63005 7.57 9.38005C7.43 9.13005 7.55 9.00005 7.68 8.87005C7.79 8.76005 7.93 8.58005 8.05 8.44005C8.17 8.30005 8.22 8.19005 8.3 8.03005C8.38 7.86005 8.34 7.72005 8.28 7.60005C8.22 7.48005 7.72 6.26005 7.52 5.76005C7.32 5.28005 7.11 5.34005 6.96 5.33005H6.48C6.31 5.33005 6.05 5.39005 5.82 5.64005C5.6 5.89005 4.96 6.49005 4.96 7.71005C4.96 8.93005 5.85 10.1101 5.97 10.2701C6.09 10.4401 7.72 12.9401 10.2 14.0101C10.79 14.2701 11.25 14.4201 11.61 14.5301C12.2 14.7201 12.74 14.6901 13.17 14.6301C13.65 14.5601 14.64 14.0301 14.84 13.4501C15.05 12.8701 15.05 12.3801 14.98 12.2701C14.91 12.1601 14.76 12.1101 14.51 11.9901Z"
+                                            fill="#E30412" />
                                     </svg>
-                                    <p class="hover:text-[#FE9100] transition-colors duration-300">
+                                    <p class="hover:text-[#E30412] transition-colors duration-300">
                                         {{ $contacto->whatsapp }}
                                     </p>
                                 </div>
@@ -186,15 +192,17 @@
                 </div>
             </div>
         </div>
-        <div
-            class="flex flex-col lg:flex-row text-center lg:text-left justify-between gap-6 items-center w-[90%] max-w-[1224px] mx-auto py-3">
-            <p>{{ __('© Copyright 2025 Cecconi S.A. Todos los derechos reservados') }}</p>
-            <p>{{ __('By') }}
-                <a href="https://osole.com.ar/#"
-                    class="font-bold hover:text-[#FE9100] transition-colors duration-300">
-                    Osole
-                </a>
-            </p>
+        <div class="bg-[#080808]  py-5 text-sm">
+            <div
+                class="flex flex-col lg:flex-row text-center lg:text-left justify-between gap-6 items-center w-[90%] max-w-[1224px] mx-auto">
+                <p>{{ __('© Copyright 2025 Cecconi S.A. Todos los derechos reservados') }}</p>
+                <p>{{ __('By') }}
+                    <a href="https://osole.com.ar/#"
+                        class="underline hover:text-[#E30412] transition-colors duration-300">
+                        Osole
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
 

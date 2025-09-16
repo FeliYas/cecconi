@@ -7,48 +7,38 @@
 
     @section('content')
         <div>
-            <div class="relative overflow-hidden text-white h-[300px] lg:h-[400px]">
-                <img src="{{ $banner->banner }}" alt="{{ __('Banner de Productos') }}"
-                    class="absolute inset-0 w-full h-full object-cover">
-                <div class="absolute inset-0"
-                    style="background: linear-gradient(90deg, rgba(0, 0, 0, 0.53) 0%, rgba(0, 0, 0, 0.00) 100%), linear-gradient(180deg, rgba(0, 0, 0, 0.81) 0%, rgba(0, 0, 0, 0.00) 100%);">
-                </div>
-                <div class="absolute hidden lg:block inset-0 top-26 w-[90%] max-w-[1224px] mx-auto z-20 text-xs">
+            <div class="relative overflow-hidden text-[#727777] h-[200px] bg-[#F0F0F0]">
+                <div class="absolute hidden lg:block inset-0 top-6 w-[90%] max-w-[1224px] mx-auto z-20 text-xs">
                     <div>
                         <div class="flex gap-1">
                             <a href="{{ route('home') }}" class="font-bold hover:underline">{{ __('Inicio') }}</a>
-                            <span>></span>
-                            <a href="{{ route('categorias') }}"
-                                class=" font-light hover:underline">{{ __('Productos') }}</a>
+                            <span> / </span>
+                            <a href="{{ route('categorias') }}" class=" font-light hover:underline">{{ __('Productos') }}</a>
                         </div>
                     </div>
                 </div>
-                <div class="absolute inset-0 w-[90%] max-w-[1224px] mx-auto flex items-center justify-center h-full">
-                    <div class="flex flex-col items-center text-center gap-1">
-                        <h2 class="text-[48px] font-bold text-white mt-28">PRODUCTOS</h2>
+                <div class="absolute inset-0 w-[90%] max-w-[1224px] mx-auto flex items-center  h-full">
+                    <div class="flex flex-col text-center gap-1">
+                        <h2 class="text-[38px] font-bold text-black mt-28 mb-4">Productos</h2>
                     </div>
                 </div>
             </div>
             <div class="py-20 w-[90%] max-w-[1224px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($categorias as $cat)
-                    <div class="h-[392px] relative group">
+                    <a href="{{ route('producto', ['categoria' => $cat->id]) }}" class="h-[392px] relative group">
                         <img src="{{ $cat->path }}" alt="{{ $cat->titulo }} Image">
-                        <div class="absolute inset-0 bg-black opacity-30"></div>
+                        <div
+                            class="opacity-0 group-hover:opacity-30 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300 absolute inset-0 bg-black rounded-[10px]">
+                        </div>
 
-                        <!-- Contenedor de texto + botón -->
-                        <div class="absolute inset-0 flex flex-col items-center justify-end">
-                            <h3
-                                class="text-white text-2xl font-semibold uppercase transform transition-all duration-300 group-hover:-translate-y-36">
+                        <div
+                            class="absolute bottom-0 flex flex-col items-center justify-center bg-main-color h-15 w-full rounded-b-[10px]">
+                            <h3 class="text-white font-bold">
                                 {{ $cat->titulo }}
                             </h3>
-                            <a href="{{ route('productos', $cat->id) }}"
-                                class="btn-negro opacity-0 invisible transform transition-all duration-300 group-hover:opacity-100 group-hover:visible group-hover:-translate-y-36">
-                                MÁS INFO
-                            </a>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </div>
-
     @endsection

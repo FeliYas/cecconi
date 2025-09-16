@@ -307,6 +307,28 @@ html, body {
   box-shadow: 0 0 10px rgba(55, 73, 119, 0.3);
   transform: scale(1.01);
 }
+
+.btn-border{
+  color: #E30412;
+  padding: 10px 32px;
+  height: 40px;
+  border: 1px solid #E30412;
+  cursor: pointer;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
+}
+.btn-border:hover {
+  color: #fff;
+  background-color: #E30412;
+  box-shadow: 0 0 10px rgba(55, 73, 119, 0.3);
+  transform: scale(1.01);
+}
+
 /* Aplicar fuentes Inter  a toda la web (excepto iconos) */
 :not(.fa):not(.fas):not(.far):not(.fab):not(.fal):not(.fad):not([class*="fa-"]) {
   font-family: 'Inter', ui-sans-serif, system-ui, sans-serif !important;

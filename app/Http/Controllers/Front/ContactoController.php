@@ -18,19 +18,16 @@ class ContactoController extends Controller
     public function index()
     {
         $contacto = Contacto::first();
-        $banner = Banner::where('seccion', 'contacto')->first();
-        if ($banner) {
-            $banner->banner = asset('storage/' . $banner->banner);
-        }
         $metadatos = Metadato::where('seccion', 'contacto')->first();
         $logos = Logo::whereIn('seccion', ['home', 'navbar', 'footer'])->get();
         foreach ($logos as $logo) {
             $logo->path = asset('storage/' . $logo->path);
         }
-        $redes = Contacto::select('facebook', 'instagram','tiktok')->first();
+        $redes = Contacto::select('facebook', 'instagram')->first();
         $contactos = Contacto::select('direccion', 'email', 'telefono', 'whatsapp')->get();
         $whatsapp = Contacto::select('whatsapp')->first()->whatsapp;
-        return view('front.contacto', compact('contacto', 'banner', 'metadatos', 'logos', 'redes', 'contactos', 'whatsapp'));
+        $mapa = $contacto->iframe;
+        return view('front.contacto', compact('contacto', 'metadatos', 'logos', 'redes', 'contactos', 'whatsapp', 'mapa'));
     }
 
     public function enviar(Request $request)

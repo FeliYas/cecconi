@@ -4,28 +4,22 @@
 
 @section('content')
     <div>
-        <div class="relative overflow-hidden text-white h-[300px] lg:h-[400px]">
-            <img src="{{ $banner->banner }}" alt="{{ __('Banner de Presupuesto') }}"
-                class="absolute inset-0 w-full h-full object-cover">
-            <div class="absolute inset-0"
-                style="background: linear-gradient(90deg, rgba(0, 0, 0, 0.53) 0%, rgba(0, 0, 0, 0.00) 100%), linear-gradient(180deg, rgba(0, 0, 0, 0.81) 0%, rgba(0, 0, 0, 0.00) 100%);">
-            </div>
-            <div class="absolute hidden lg:block inset-0 top-26 w-[90%] max-w-[1224px] mx-auto z-20 text-xs">
+        <div class="relative overflow-hidden text-[#727777] h-[200px] bg-[#F0F0F0]">
+            <div class="absolute hidden lg:block inset-0 top-6 w-[90%] max-w-[1224px] mx-auto z-20 text-xs">
                 <div>
                     <div class="flex gap-1">
                         <a href="{{ route('home') }}" class="font-bold hover:underline">{{ __('Inicio') }}</a>
-                        <span>></span>
+                        <span> / </span>
                         <a href="{{ route('presupuesto') }}" class=" font-light hover:underline">{{ __('Presupuesto') }}</a>
                     </div>
                 </div>
             </div>
-            <div class="absolute inset-0 w-[90%] max-w-[1224px] mx-auto flex items-center justify-center h-full">
-                <div class="flex flex-col items-center text-center gap-1">
-                    <h2 class="text-[48px] font-bold text-white mt-28">PRESUPUESTO</h2>
+            <div class="absolute inset-0 w-[90%] max-w-[1224px] mx-auto flex items-center  h-full">
+                <div class="flex flex-col text-center gap-1">
+                    <h2 class="text-[38px] font-bold text-black mt-28 mb-4">Solicitud de presupuesto</h2>
                 </div>
             </div>
         </div>
-
         <div class="w-[90%] lg:max-w-[1224px] mx-auto py-16 flex flex-col gap-10 lg:gap-12">
             <!-- Mensajes de feedback -->
             @if (session('success'))
@@ -121,7 +115,7 @@
                 <form action="{{ route('presupuesto.enviar') }}" method="POST" class="w-full text-[#222]" id="contactForm"
                     enctype="multipart/form-data">
                     @csrf
-                    <h2 class="font-semibold text-[32px] mb-5">{{ __('Datos personales') }}</h2>
+                    <h2 class="font-bold text-2xl mb-5">{{ __('Datos personales') }}</h2>
                     <div class="grid lg:grid-cols-2 gap-6 mb-6">
                         <div class="w-full relative">
                             <label for="nombre" class="block mb-2">{{ __('Nombre y Apellido') }} *</label>
@@ -141,12 +135,12 @@
                                 class="border border-[#DEDFE0] rounded-md w-full h-12 px-4 focus:border-main-color focus:outline-none transition-colors">
                         </div>
                         <div class="w-full relative">
-                            <label for="localidad" class="block mb-2">{{ __('Localidad') }}</label>
-                            <input type="text" name="localidad" id="localidad"
+                            <label for="empresa" class="block mb-2">{{ __('Empresa') }}</label>
+                            <input type="text" name="empresa" id="empresa"
                                 class="border border-[#DEDFE0] rounded-md w-full h-12 px-4 focus:border-main-color focus:outline-none transition-colors">
                         </div>
                     </div>
-                    <h2 class="font-semibold text-[32px] mb-5 mt-15">{{ __('Consulta') }}</h2>
+                    <h2 class="font-bold text-2xl mb-5 mt-15">{{ __('Consulta') }}</h2>
                     <div class="grid lg:grid-cols-2 gap-6 mb-6">
                         <div class="w-full relative">
                             <label for="producto" class="block mb-2">{{ __('Producto') }} *</label>
@@ -159,21 +153,21 @@
                             </select>
                         </div>
                         <div class="w-full relative">
-                            <label for="cantidad" class="block mb-2">{{ __('Cantidad') }}</label>
-                            <input type="number" name="cantidad" id="cantidad"
+                            <label for="medidas" class="block mb-2">{{ __('Medidas (cm)') }}</label>
+                            <input type="number" name="medidas" id="medidas"
                                 class="border border-[#DEDFE0] rounded-md w-full h-12 px-4 focus:border-main-color focus:outline-none transition-colors">
                         </div>
                     </div>
                     <div class="flex flex-col lg:flex-row gap-6">
                         <div class="w-full py-2 relative">
-                            <label for="mensaje" class="block mb-2">{{ __('Aclaraciones / Observaciones') }}</label>
+                            <label for="mensaje" class="block mb-2">{{ __('Mensaje') }}</label>
                             <textarea name="mensaje" id="mensaje" cols="30" rows="10" required
                                 class="border border-[#DEDFE0] rounded-md w-full px-4 py-2 h-[157px] focus:border-main-color focus:outline-none transition-colors"></textarea>
                         </div>
                         <div class="w-full flex flex-col items-start justify-between gap-10 lg:mb-3">
                             <div class="w-full relative py-2">
                                 <label for="archivo"
-                                    class="block mb-2">{{ __('Adjuntar archivo (Foto de producto a realizar)') }}</label>
+                                    class="block mb-2">{{ __('Adjuntar archivo') }}</label>
                                 <div class="relative">
                                     <input type="file" name="archivo" id="archivo" class="hidden"
                                         onchange="updateFileName()">
@@ -195,14 +189,14 @@
                             </div>
                             <div class="flex flex-col lg:flex-row items-center justify-between w-full">
                                 <div>
-                                    <span class="mt-8">* Datos obligatorios</span>
+                                    <span class="mt-8">* Campos obligatorios</span>
                                 </div>
                                 <div class="mt-auto py-1 flex flex-col items-center justify-center ">
                                     <!-- Agregamos campo oculto para almacenar el token de reCAPTCHA -->
                                     <input type="hidden" name="g-recaptcha-response" id="recaptchaResponse">
-                                    <button type="button" id="submitBtn" class="btn-negro w-full lg:w-[207px] relative">
+                                    <button type="button" id="submitBtn" class="btn-rojo w-full lg:w-[180px] relative">
                                         <span id="submitText"
-                                            class="inline-block">{{ __('Solicitar presupuesto') }}</span>
+                                            class="inline-block">{{ __('Enviar Mensaje') }}</span>
                                         <span id="loadingIndicator"
                                             class="hidden absolute inset-0 items-center justify-center">
                                             <svg class="animate-spin h-5 w-5 text-white"
@@ -225,7 +219,7 @@
         </div>
     </div>
     <!-- Script de reCAPTCHA v3 -->
-    <script src="https://www.google.com/recaptcha/api.js?render=6LcXQKUrAAAAAJU3TR4rTepCJ9iTI-mcAnrVoXab"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdJbcorAAAAAIiDmcPijABugOMo8RLixxkiQgsb"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Agregar evento al botón de envío
@@ -247,7 +241,7 @@
 
                 // Activar reCAPTCHA
                 grecaptcha.ready(function() {
-                    grecaptcha.execute('6LcXQKUrAAAAAJU3TR4rTepCJ9iTI-mcAnrVoXab', {
+                    grecaptcha.execute('6LdJbcorAAAAAIiDmcPijABugOMo8RLixxkiQgsb', {
                         action: 'submit_contact'
                     }).then(function(token) {
                         // Guardar el token en el campo oculto

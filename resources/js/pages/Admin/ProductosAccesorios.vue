@@ -8,7 +8,7 @@ defineOptions({
 });
 
 // Definición de las columnas
-const columns = ['orden', 'path', 'titulo', 'descripcion', 'accesorio_categoria_id'];
+const columns = ['orden', 'path', 'titulo', 'descripcion', 'accesorio_categoria_id', 'destacado'];
 
 // Definición de rutas
 const createRoute = route('accesoriosproductos.store');

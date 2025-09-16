@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
 
 class PresupuestoMail extends Mailable
 {
@@ -31,16 +32,26 @@ class PresupuestoMail extends Mailable
             from: new Address('no-reply@cecconi.osole.com.ar', ($this->datos['nombre'] ?? '')),
         );
     }
+
+    public function content(): Content
+    {
+        return new Content(
+            view: 'emails.presupuesto',
+            with: [
+                'datos' => $this->datos,
+            ]
+        );
+    }
     
     public function attachments(): array
     {
         $archivos = [];
 
-        if (isset($this->datos['archivo']) && $this->datos['archivo'] instanceof \Illuminate\Http\UploadedFile) {
+        if ($this->archivo && $this->archivo instanceof \Illuminate\Http\UploadedFile) {
             $archivos[] = \Illuminate\Mail\Mailables\Attachment::fromPath(
-                $this->datos['archivo']->getRealPath()
-            )->as($this->datos['archivo']->getClientOriginalName())
-            ->withMime($this->datos['archivo']->getMimeType());
+                $this->archivo->getRealPath()
+            )->as($this->archivo->getClientOriginalName())
+            ->withMime($this->archivo->getMimeType());
         }
 
         return $archivos;

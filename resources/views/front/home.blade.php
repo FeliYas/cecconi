@@ -8,7 +8,7 @@
             <div class="slider-track flex transition-transform duration-500 ease-in-out">
                 @foreach ($sliders as $slider)
                     @php $ext = pathinfo($slider->path, PATHINFO_EXTENSION); @endphp
-                    <div class="slider-item min-w-full relative h-[600px] lg:h-[768px]">
+                    <div class="slider-item min-w-full relative h-[600px] lg:h-[787px]">
                         <div class="absolute inset-0 bg-black z-0 overflow-hidden">
                             @if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']))
                                 <img src="{{ asset($slider->path) }}" alt="Slider Image" class="w-full h-full object-cover"
@@ -22,18 +22,20 @@
                         </div>
                         <div class="absolute inset-0 bg-black opacity-40" style="mix-blend-mode: darken;">
                         </div>
-                        <div class="absolute inset-0 flex z-20 lg:max-w-[1224px] lg:mx-auto">
+                        <div class="absolute inset-0 flex z-20 w-[90%] lg:max-w-[1224px] lg:mx-auto">
                             <div
-                                class="relative flex flex-col gap-4 sm:gap-6 lg:gap-10 w-full justify-center items-center text-center mb-20">
+                                class="relative flex flex-col gap-4 sm:gap-6 lg:gap-10 w-full justify-center items-start text-start mb-20">
                                 <div
-                                    class="max-w-[320px] sm:max-w-[400px] lg:max-w-[700px] text-white flex flex-col gap-2 lg:gap-6 items-center mt-10">
-                                    <h1
-                                        class="text-3xl lg:text-5xl font-bold leading-tight sm:leading-normal lg:leading-14">
-                                        {{ $slider->titulo }}</h1>
-                                    {{-- <div class="custom-summernote text-xl sm:text-2xl mt-1">
-                                        <p>{!! $slider->descripcion !!}</p>
-                                    </div> --}}
-                                    <a href="{{ route('nosotros') }}" class="btn-home w-[128px]">MÁS INFO</a>
+                                    class="max-w-[320px] sm:max-w-[400px] lg:max-w-[600px] text-white flex flex-col gap-40 items-start mt-40">
+                                    <div class="flex flex-col gap-1">
+                                        <h1
+                                            class="text-3xl lg:text-[55px] font-bold leading-tight sm:leading-normal lg:leading-14">
+                                            {{ $slider->titulo }}</h1>
+                                        <div class="custom-summernote text-xl sm:text-2xl mt-1">
+                                            <p>{!! $slider->descripcion !!}</p>
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('nosotros') }}" class="btn-home w-[173px]">Ver productos</a>
                                 </div>
                             </div>
                         </div>
@@ -41,7 +43,7 @@
                 @endforeach
             </div>
             <!-- Slider Navigation Dots -->
-            <div class="relative lg:max-w-[1224px] lg:mx-auto">
+            {{-- <div class="relative lg:max-w-[1224px] lg:mx-auto">
                 <div class="absolute bottom-4 sm:bottom-6 lg:bottom-13 w-full z-30 flex justify-center">
                     <div class="flex items-center space-x-1 lg:space-x-2">
                         @foreach ($sliders as $i => $slider)
@@ -51,7 +53,7 @@
                         @endforeach
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
@@ -103,47 +105,49 @@
 
         {{-- Productos section --}}
         <div class="py-20 flex flex-col gap-7 items-center w-[90%] max-w-[1224px] mx-auto">
-            <h2 class="text-[40px] font-bold text-black">Nuestros productos</h2>
+            <div class="flex justify-between items-center w-full">
+                <h2 class="text-[32px] font-semibold text-black">Nuestros productos</h2>
+                <a href="{{ route('categorias') }}" class="btn-border w-[184px]">Ver todos</a>
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($categorias as $cat)
-                    <div class="h-[392px] relative group">
+                    <a href="{{ route('producto', ['categoria' => $cat->id]) }}" class="h-[392px] relative group">
                         <img src="{{ $cat->path }}" alt="{{ $cat->titulo }} Image">
-                        <div class="absolute inset-0 bg-black opacity-30"></div>
+                        <div
+                            class="opacity-0 group-hover:opacity-30 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300 absolute inset-0 bg-black rounded-[10px]">
+                        </div>
 
-                        <!-- Contenedor de texto + botón -->
-                        <div class="absolute inset-0 flex flex-col items-center justify-end">
-                            <h3
-                                class="text-white text-2xl font-semibold uppercase transform transition-all duration-300 group-hover:-translate-y-36">
+                        <div
+                            class="absolute bottom-0 flex flex-col items-center justify-center bg-main-color h-15 w-full rounded-b-[10px]">
+                            <h3 class="text-white font-bold">
                                 {{ $cat->titulo }}
                             </h3>
-                            <a href="{{ route('productos', $cat->id) }}"
-                                class="btn-negro opacity-0 invisible transform transition-all duration-300 group-hover:opacity-100 group-hover:visible group-hover:-translate-y-36">
-                                MÁS INFO
-                            </a>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </div>
 
         <!-- Content Section -->
-        <div class="flex flex-col lg:flex-row gap-0 lg:gap-22 bg-black">
+        <div class="flex flex-col lg:flex-row gap-0 lg:gap-15 ">
 
-            <img src="{{ $contenido->path }}" alt="{{ __('Contenido de la pagina') }}"
-                class="w-full lg:w-[50vw] h-[400px] lg:h-[600px] object-cover opacity-0 -translate-x-20 transition-all duration-2000 ease-in-out scroll-fade-left">
             <div
-                class="w-full h-[500px] lg:h-[600px] lg:w-1/2 pl-[5%] pr-[5%] lg:pl-0 lg:pr-[calc((100vw-1224px)/2)] py-7 flex flex-col opacity-0 translate-x-20 transition-all duration-2000 ease-in-out scroll-fade-right items-center md:items-start justify-center text-white gap-6 lg:gap-17">
+                class="w-full lg:w-[50vw] pr-[5%] pl-[5%] xl:pr-0 xl:pl-[calc((100vw-1224px)/2)] opacity-0 -translate-x-20 transition-all duration-2000 ease-in-out scroll-fade-left">
+                <img src="{{ $contenido->path }}" alt="{{ __('Contenido de la pagina') }}"
+                    class="w-full h-[400px] lg:h-[600px] object-cover rounded-[10px]">
+            </div>
+            <div
+                class="w-full h-[500px] lg:h-[600px] lg:w-1/2 pl-[5%] pr-[5%] lg:pl-0 lg:pr-[calc((100vw-1224px)/2)] py-7 flex flex-col opacity-0 translate-x-20 transition-all duration-2000 ease-in-out scroll-fade-right items-center md:items-start justify-center text-black gap-6 lg:gap-13">
                 <div class="flex flex-col gap-4 sm:gap-6 w-full">
-                    <h2 class="font-bold text-3xl lg:text-[40px] text-center lg:text-left">
+                    <h2 class="font-bold text-2xl lg:text-[32px] text-center lg:text-left">
                         {{ $contenido->titulo }}</h2>
-                    <div class="custom-summernote text-center lg:text-left text-lg">
+                    <div class="custom-summernote text-center lg:text-left text-[#727777] leading-7">
                         <p>{!! $contenido->descripcion !!}</p>
                     </div>
                 </div>
-                <a href="{{ route('nosotros') }}" class="btn-home w-[128px]">MÁS INFO</a>
+                <a href="{{ route('nosotros') }}" class="btn-rojo w-[184px]">Más info</a>
             </div>
         </div>
-        <!-- Scroll Animation Script -->
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const observer = new IntersectionObserver(entries => {
@@ -178,44 +182,77 @@
             });
         </script>
 
-        {{-- Novedades section --}}
         <div class="py-20 flex flex-col gap-7 items-center w-[90%] max-w-[1224px] mx-auto">
-            <h2 class="text-[40px] font-bold text-black">Novedades</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach ($novedades as $novedad)
-                    <div class="h-[520px] relative group">
-                        <!-- contenedor solo de la imagen -->
-                        <div class="relative">
-                            <img src="{{ $novedad->path }}" alt="{{ $novedad->titulo }} Image"
-                                class="w-full h-[288px] object-cover">
-                            <div
-                                class="absolute inset-0 bg-black group-hover:opacity-30 opacity-0 transition-opacity duration-300">
-                            </div>
+            <div class="flex justify-between items-center w-full">
+                <h2 class="text-[32px] font-semibold text-black">Accesorios</h2>
+                <a href="{{ route('accesorios') }}" class="btn-border w-[184px]">Ver todos</a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach ($accesorios as $acc)
+                    <a href="{{ route('accesorio', $acc->id) }}" class="h-[392px] relative group border border-[#DEDFE0] rounded-[10px]">
+                        <img src="{{ $acc->path }}" alt="{{ $acc->titulo }} Image"
+                            class="h-[288px] w-full object-cover rounded-t-[10px] bg-[#F5F5F5]">
+                        <div
+                            class="h-[288px] opacity-0 group-hover:opacity-30 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300 absolute inset-0 bg-black rounded-t-[10px]">
                         </div>
-
-                        <!-- textos -->
-                        <div class="flex flex-col gap-4 pt-4 text-black h-[232px]">
-                            <div class="h-[90px]">
-                                <p>{{ ucfirst($novedad->epigrafe) }} |
-                                    {{ $novedad->created_at->format('d/m/Y') }}</p>
-                                <h3 class="text-2xl font-semibold line-clamp-2">{{ $novedad->titulo }}</h3>
-                            </div>
-                            <div class="h-[110px] flex flex-col justify-between">
-                                <div class="custom-summernote">
-                                    <p>{!! $novedad->descripcion !!}</p>
-                                </div>
-                                <a href="{{ route('novedad', $novedad->id) }}"
-                                    class="text-[#808080] group-hover:text-[#FE9100] transition-colors duration-300">
-                                    VER MÁS
-                                </a>
-                            </div>
+                        <div class="h-[104px] py-3 px-4 flex flex-col gap-1.5">
+                            <p class="font-bold text-sm text-main-color uppercase">{{ $acc->categoria->titulo }}</p>
+                            <p class="font-semibold text-lg text-black uppercase">{{ $acc->titulo }}</p>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </div>
 
-        <div class="bg-[#F5F5F5] py-16 pb-20">
+        {{-- Novedades section --}}
+        <div class="pb-7 bg-[#F5F5F5]">
+            <div class="flex flex-col gap-7 items-center w-[90%] max-w-[1224px] mx-auto py-12">
+                <div class="flex justify-between items-center w-full">
+                    <h2 class="text-[32px] font-semibold text-black">Novedades</h2>
+                    <a href="{{ route('novedades') }}" class="btn-border w-[184px]">Ver todas</a>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach ($novedades as $novedad)
+                        <div class="h-[559px] relative group bg-white rounded-[10px] border border-[#DEDFE0]">
+                            <!-- contenedor solo de la imagen -->
+                            <div class="relative">
+                                <img src="{{ $novedad->path }}" alt="{{ $novedad->titulo }} Image"
+                                    class="w-full h-[312px] object-cover rounded-t-[10px]">
+                                <div
+                                    class="absolute inset-0 bg-black group-hover:opacity-30 opacity-0 transition-opacity duration-300 rounded-t-[10px] pointer-events-none group-hover:pointer-events-auto">
+                                </div>
+                            </div>
+
+                            <!-- textos -->
+                            <div class="flex flex-col gap-4 p-6 text-black h-[247px]">
+                                <div class="h-[58px]">
+                                    <p class="font-bold text-main-color">{{ ucfirst($novedad->epigrafe) }} </p>
+                                    <h3 class="text-2xl font-semibold line-clamp-2">{{ $novedad->titulo }}</h3>
+                                </div>
+                                <div class="h-[125px] flex flex-col justify-between">
+                                    <div class="custom-summernote">
+                                        <p>{!! $novedad->descripcion !!}</p>
+                                    </div>
+                                    <div class="flex justify-between items-center text-[#727777]">
+                                        {{ $novedad->created_at->format('d/m/Y') }}
+                                        <a href="{{ route('novedad', $novedad->id) }}"
+                                            class="group-hover:text-[#E30412] transition-colors duration-300">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white pb-20">
             <div class="flex flex-col gap-6 max-w-[90%] lg:max-w-[1224px] mx-auto">
                 <div class="flex justify-center items-center">
                     <h2 class="text-[40px] font-bold text-black text-center">Clientes</h2>

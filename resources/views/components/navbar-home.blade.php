@@ -58,9 +58,9 @@
                 <a href="{{ route('nosotros') }}"
                     class="{{ Route::currentRouteName() == 'nosotros' ? 'font-bold' : '' }}">Nosotros</a>
                 <a href="{{ route('categorias') }}"
-                    class="{{ in_array(Route::currentRouteName(), ['categorias', 'productos', 'producto']) ? 'font-bold' : '' }}">Productos</a>
+                    class="{{ in_array(Route::currentRouteName(), ['categorias', 'producto']) ? 'font-bold' : '' }}">Productos</a>
                 <a href="{{ route('accesorios') }}"
-                    class="{{ Route::currentRouteName() == 'accesorios' ? 'font-bold' : '' }}">Accesorios</a>
+                    class="{{ in_array(Route::currentRouteName(), ['accesorios', 'accesorio']) ? 'font-bold' : '' }}">Accesorios</a>
                 <a href="{{ route('clientes') }}"
                     class="{{ Route::currentRouteName() == 'clientes' ? 'font-bold' : '' }}">Clientes</a>
                 <a href="{{ route('novedades') }}"
@@ -85,25 +85,24 @@
             mobileMenuOpen: false,
             forceScrolledStyle: false,
 
-            // Lista de rutas que deben mostrar siempre el estilo "scrolled"
-            fixedScrollRoutes: ['novedad', 'productos',
-            'producto'], // Agrega aquí las rutas que necesites
-
             get shouldShowScrolledStyle() {
                 return this.forceScrolledStyle || this.scrolled;
             },
 
             initNavbar() {
-                // Verificar si la ruta actual debe tener estilo fijo
                 const currentRoute = '{{ Route::currentRouteName() }}';
-                this.forceScrolledStyle = this.fixedScrollRoutes.includes(currentRoute);
 
-                // Solo agregar el listener de scroll si no estamos en una ruta con estilo fijo
-                if (!this.forceScrolledStyle) {
-                    window.addEventListener('scroll', () => {
-                        this.scrolled = window.scrollY > 50;
-                    });
+                // Si NO estamos en home, forzar el estilo scrolled siempre
+                if (currentRoute !== 'home') {
+                    this.forceScrolledStyle = true;
+                    return; // No agregar listener de scroll
                 }
+
+                // Solo en home: mantener comportamiento original de scroll
+                this.forceScrolledStyle = false;
+                window.addEventListener('scroll', () => {
+                    this.scrolled = window.scrollY > 50;
+                });
             }
         }));
     });

@@ -17,10 +17,7 @@ class NosotrosController extends Controller
     {
         $nosotros = Nosotros::first();
         $nosotros->path = asset('storage/' . $nosotros->path);
-        $banner = Banner::where('seccion', 'nosotros')->first();
-        if ($banner) {
-            $banner->banner = asset('storage/' . $banner->banner);
-        }
+        $nosotros->video = asset('storage/' . $nosotros->video);
         $tarjetas = Tarjeta::all();
         foreach ($tarjetas as $tarjeta) {
             $tarjeta->path = asset('storage/' . $tarjeta->path);
@@ -31,9 +28,9 @@ class NosotrosController extends Controller
         foreach ($logos as $logo) {
             $logo->path = asset('storage/' . $logo->path);
         }
-        $redes = Contacto::select('facebook', 'instagram','tiktok')->first();
+        $redes = Contacto::select('facebook', 'instagram')->first();
         $contactos = Contacto::select('direccion', 'email', 'telefono', 'whatsapp')->get();
         $whatsapp = Contacto::select('whatsapp')->first()->whatsapp;
-        return view('front.nosotros', compact('nosotros', 'banner', 'tarjetas', 'metadatos', 'redes', 'logos', 'contactos', 'whatsapp'));
+        return view('front.nosotros', compact('nosotros', 'tarjetas', 'metadatos', 'redes', 'logos', 'contactos', 'whatsapp'));
     }
 }

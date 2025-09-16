@@ -107,10 +107,10 @@
                     <div class="data-label">Teléfono:</div>
                     <div class="data-value">{{ $datos['telefono'] }}</div>
                 </div>
-                @if (!empty($datos['localidad']))
+                @if (!empty($datos['empresa']))
                     <div class="data-row">
-                        <div class="data-label">Localidad:</div>
-                        <div class="data-value">{{ $datos['localidad'] }}</div>
+                        <div class="data-label">Empresa:</div>
+                        <div class="data-value">{{ $datos['empresa'] }}</div>
                     </div>
                 @endif
             </div>
@@ -127,10 +127,10 @@
                         </div>
                     </div>
                 @endif
-                @if (!empty($datos['cantidad']))
+                @if (!empty($datos['medidas']))
                     <div class="data-row">
-                        <div class="data-label">Cantidad:</div>
-                        <div class="data-value">{{ $datos['cantidad'] }}</div>
+                        <div class="data-label">Medidas (cm):</div>
+                        <div class="data-value">{{ $datos['medidas'] }}</div>
                     </div>
                 @endif
                 <div class="data-row">

@@ -37,7 +37,7 @@
 
 <body class="flex flex-col min-h-screen justify-between bg-white font-scheherazade">
     <x-navbar-home :redes="$redes" :logos="$logos" />
-    <main class="overflow-x-hidden h-full {{ request()->routeIs('novedad', 'productos', 'producto') ? 'mt-25' : '' }}">
+    <main class="overflow-x-hidden h-full {{ request()->routeIs('home') ? 'mt-0' : 'mt-22.5' }}">
         @yield('content')
     </main>
     <x-footer-home :contactos="$contactos" :redes="$redes" :logos="$logos" />
